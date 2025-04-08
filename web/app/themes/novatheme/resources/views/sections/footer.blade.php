@@ -1,6 +1,6 @@
 <footer class="bg-light pt-5 pb-3 mt-5">
   <div class="container">
-    <div class="row">
+    <div class="row d-none d-md-flex">
 
       <!-- Column 1: Company Info -->
       <div class="col-md-3 mb-4">

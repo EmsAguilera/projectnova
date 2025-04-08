@@ -1,62 +1,86 @@
-<p align="center">
-  <a href="https://roots.io/bedrock/">
-    <img alt="Bedrock" src="https://cdn.roots.io/app/uploads/logo-bedrock.svg" height="100">
-  </a>
-</p>
+# ProjectNova - WordPress + Bedrock + Sage 10
 
-<p align="center">
-  <a href="https://packagist.org/packages/roots/bedrock">
-    <img alt="Packagist Installs" src="https://img.shields.io/packagist/dt/roots/bedrock?label=projects%20created&colorB=2b3072&colorA=525ddc&style=flat-square">
-  </a>
+A modern WordPress development stack using [Bedrock](https://roots.io/bedrock/), [Sage 10](https://roots.io/sage/), Bootstrap 5 (with optional TailwindCSS), and Docker for database management.
 
-  <a href="https://packagist.org/packages/roots/wordpress">
-    <img alt="roots/wordpress Packagist Downloads" src="https://img.shields.io/packagist/dt/roots/wordpress?label=roots%2Fwordpress%20downloads&logo=roots&logoColor=white&colorB=2b3072&colorA=525ddc&style=flat-square">
-  </a>
-  
-  <img src="https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/roots/bedrock/master/composer.json&label=wordpress&logo=roots&logoColor=white&query=$.require[%22roots/wordpress%22]&colorB=2b3072&colorA=525ddc&style=flat-square">
+---
 
-  <a href="https://github.com/roots/bedrock/actions/workflows/ci.yml">
-    <img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/roots/bedrock/ci.yml?branch=master&logo=github&label=CI&style=flat-square">
-  </a>
+---
 
-  <a href="https://twitter.com/rootswp">
-    <img alt="Follow Roots" src="https://img.shields.io/badge/follow%20@rootswp-1da1f2?logo=twitter&logoColor=ffffff&message=&style=flat-square">
-  </a>
-</p>
+## How to Set Up
 
-<p align="center">WordPress boilerplate with Composer, easier configuration, and an improved folder structure</p>
+### Requirements
 
-<p align="center">
-  <a href="https://roots.io/bedrock/">Website</a> &nbsp;&nbsp; <a href="https://roots.io/bedrock/docs/installation/">Documentation</a> &nbsp;&nbsp; <a href="https://github.com/roots/bedrock/releases">Releases</a> &nbsp;&nbsp; <a href="https://discourse.roots.io/">Community</a>
-</p>
+- **WSL2 on Windows** (Ubuntu)
+- **Node.js 18+** (we recommend `nvm` to install it)
+- **Yarn**
+- **Composer**
+- **PHP 8.1+**
+- **MySQL via Docker**
 
-## Sponsors
+---
 
-Bedrock is an open source project and completely free to use. If you've benefited from our projects and would like to support our future endeavors, please consider [sponsoring Roots](https://github.com/sponsors/roots).
+### 1. Clone this repo or start a new Bedrock project
 
-<div align="center">
-<a href="https://carrot.com/"><img src="https://cdn.roots.io/app/uploads/carrot.svg" alt="Carrot" width="120" height="90"></a> <a href="https://wordpress.com/"><img src="https://cdn.roots.io/app/uploads/wordpress.svg" alt="WordPress.com" width="120" height="90"></a> <a href="https://worksitesafety.ca/careers/"><img src="https://cdn.roots.io/app/uploads/worksite-safety.svg" alt="Worksite Safety" width="120" height="90"></a> <a href="https://www.itineris.co.uk/"><img src="https://cdn.roots.io/app/uploads/itineris.svg" alt="Itineris" width="120" height="90"></a> <a href="https://bonsai.so/"><img src="https://cdn.roots.io/app/uploads/bonsai.svg" alt="Bonsai" width="120" height="90"></a> <a href="https://fusepress.co/sp/sign-up/"><img src="https://cdn.roots.io/app/uploads/fusepress.svg" alt="FusePress" width="120" height="90"></a>
-</div>
+```bash
+composer create-project roots/bedrock projectnova
+cd projectnova
 
-## Overview
+--- 
+### 2. Configure .env 
 
-Bedrock is a WordPress boilerplate for developers that want to manage their projects with Git and Composer. Much of the philosophy behind Bedrock is inspired by the [Twelve-Factor App](http://12factor.net/) methodology, including the [WordPress specific version](https://roots.io/twelve-factor-wordpress/).
+Update .env with your database and URL:
 
-- Better folder structure
-- Dependency management with [Composer](https://getcomposer.org)
-- Easy WordPress configuration with environment specific files
-- Environment variables with [Dotenv](https://github.com/vlucas/phpdotenv)
-- Autoloader for mu-plugins (use regular plugins as mu-plugins)
-- Enhanced security (separated web root and secure passwords with [wp-password-bcrypt](https://github.com/roots/wp-password-bcrypt))
+DB_NAME=projectnova
+DB_USER=root
+DB_PASSWORD=root
+DB_HOST=127.0.0.1
 
-## Getting Started
+WP_ENV=development
+WP_HOME=http://projectnova.local
+WP_SITEURL=${WP_HOME}/wp
 
-See the [Bedrock installation documentation](https://roots.io/bedrock/docs/installation/).
+### 3. Start MySQL Database via Docker
 
-## Stay Connected
+docker run --name mysql-nova \
+  -e MYSQL_ROOT_PASSWORD=root \
+  -e MYSQL_DATABASE=projectnova \
+  -p 3306:3306 \
+  -d mysql:5.7
 
-- Join us on Discord by [sponsoring us on GitHub](https://github.com/sponsors/roots)
-- Participate on [Roots Discourse](https://discourse.roots.io/)
-- Follow [@rootswp on Twitter](https://twitter.com/rootswp)
-- Read the [Roots Blog](https://roots.io/blog/)
-- Subscribe to the [Roots Newsletter](https://roots.io/newsletter/)
+To start it:
+docker start mysql-nova
+
+
+### 4. Create Sage 10 Theme
+Navigate to your themes folder and create the theme:
+
+cd web/app/themes
+composer create-project roots/sage novatheme 10.5.1
+
+### 5. Install Theme Dependencies
+Inside the novatheme folder:
+
+cd novatheme
+yarn && yarn build
+
+### 6. Serve PHP Locally
+Back in project root:
+
+php -S 127.0.0.1:8000 -t web
+
+Now visit: http://projectnova.local:8000 or http://localhost:8000 
+
+7. WordPress Installation
+Go to:
+
+http://projectnova.local:8000/wp/wp-admin/install.php
+
+Complete the setup using:
+
+- **DB name: projectnova
+
+- **User: root
+
+- **Password: root
+
+- **Host: 127.0.0.1
