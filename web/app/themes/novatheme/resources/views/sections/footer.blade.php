@@ -54,9 +54,10 @@
     </div>
 
     <!-- Bottom Row -->
-    <div class="d-flex justify-content-between mt-4 border-top pt-3">
+    <div class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between 
+    align-items-center mt-4 border-top pt-3">
       <small>© 2023 Loremipsum GmbH</small>
-      <div>
+      <div class="text-center text-md-start">
         <a href="#" class="text-muted text-decoration-none me-3">Impressum</a>
         <a href="#" class="text-muted text-decoration-none">Datenschutz</a>
       </div>
