@@ -27,7 +27,7 @@
         </aside>
       @endif
 
-      @include('sections.footer')
+      @include('partials.footer')
     </div>
 
     @php(do_action('get_footer'))

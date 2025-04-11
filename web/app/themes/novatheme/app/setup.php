@@ -122,3 +122,27 @@ add_action('widgets_init', function () {
         'id' => 'sidebar-footer',
     ] + $config);
 });
+
+require_once get_theme_file_path('app/blocks.php');
+
+add_filter('acf/settings/save_json', function () {
+    return get_theme_file_path('/acf-json');
+});
+
+add_filter('acf/settings/load_json', function ($paths) {
+    $paths[] = get_theme_file_path('/acf-json');
+    return $paths;
+});
+
+// Allow ACF to use Blade templates
+add_filter('acf/settings/render_block_template', function ($path, $block) {
+    $slug = str_replace('acf/', '', $block['name']);
+    $view = "blocks.{$slug}";
+  
+    if (view()->exists($view)) {
+      echo \Roots\view($view, ['block' => $block])->render();
+      return null; // Prevent ACF from using the PHP fallback
+    }
+  
+    return $path;
+  }, 10, 2);
