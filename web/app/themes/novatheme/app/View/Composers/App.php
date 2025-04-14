@@ -24,8 +24,6 @@ class App extends Composer
     {
         return [
             'siteName' => $this->siteName(),
-            'products' => collect(require get_theme_file_path('app/View/Composers/data/products.php')),
-            'posts' => collect(require get_theme_file_path('app/View/Composers/data/posts.php')),
         ];
     }
 
