@@ -86,3 +86,23 @@ Complete the setup using:
 
 - **Host: 127.0.0.1
 ```
+
+--------------------------------------------------------------------------------
+
+### Plugin "Advanced Custom Fields Pro"
+For this project the plugin was installed manually through a .zip file. 
+It was unzipped inside the /plugins directory and the ACF Pro licesne key was added via Wordpress Dashboard.
+You can get it from the repository, just is needed to add the Licesne key
+
+To add the License key go to:
+```bash
+WordPress Admin → ACF → Updates → License Key
+```
+Paste the key and activate it. 
+
+
+### Optional
+If you don't want to install the plugin manually, you can install the plugin through Composer:
+```bash
+composer require advanced-custom-fields/advanced-custom-fields-pro
+```
