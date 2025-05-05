@@ -65,4 +65,20 @@ add_action('acf/init', function () {
         'mode'            => 'edit',
         'supports'        => ['align' => false],
     ]);
+
+    acf_register_block_type([
+        'name'            => 'footer-section',
+        'title'           => __('Footer Section'),
+        'description'     => __('A custom footer with company info and navigation links.'),
+        'render_callback' => function ($block, $content = '', $is_preview = false) {
+            echo \Roots\view('blocks.footer-section', [
+                'block' => $block,
+                'is_preview' => $is_preview,
+            ])->render();
+        },
+        'category'        => 'layout',
+        'icon'            => 'admin-site-alt3',
+        'mode'            => 'edit',
+        'supports'        => ['align' => false, 'multiple' => false],
+    ]);    
 });
